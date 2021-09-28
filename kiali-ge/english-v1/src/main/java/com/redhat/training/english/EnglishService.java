@@ -22,7 +22,15 @@ public class EnglishService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello() {
-        
+        String dbmsg = null;
+        try {
+            dbmsg = TextEntity.findAll().<TextEntity>firstResult().getT();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (dbmsg != null) {
+            message = dbmsg;
+        }
         return message;
     }
 
@@ -30,7 +38,7 @@ public class EnglishService {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/chained")
     public String chainedGreeting() {
-        
+
         return message + " -> " + spanishService.chainedGreeting();
     }
 }
